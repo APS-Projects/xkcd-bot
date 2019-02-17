@@ -4,9 +4,9 @@ import re
 from bs4 import BeautifulSoup
 import requests
 
-
+#Get a list of all comics matching search term from duckduckgo and return a list
 @app.route("/getcomic/<string:search_query>", methods=['GET'])
-def get_comic(search_query):
+def get_comic_list(search_query):
     # search_query = input("xkcd to search for? ")
 
     url = "https://duckduckgo.com/html/?q=site%3Axkcd.com%20" + search_query
@@ -35,3 +35,10 @@ def get_comic(search_query):
             regex_results.append(x[0])
     response = jsonify(regex_results)
     return response
+
+#Get JSON object of a single comic
+@app.route("/comic/<int:comic_number>", methods=['GET'])
+def get_single_comic(comic_number):
+        url = "https://dynamic.xkcd.com/api-0/jsonp/comic/" + str(comic_number)
+        comic = requests.get(url).json()
+        return jsonify(comic)
