@@ -33,5 +33,5 @@ def get_comic(search_query):
         #Check if regex matched
         if x and x[0] not in regex_results:
             regex_results.append(x[0])
-    response = jsonify(regex_results)
+    response = jsonify({regex_results})
     return response
