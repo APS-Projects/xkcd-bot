@@ -4,6 +4,7 @@ import re
 from bs4 import BeautifulSoup
 import requests
 
+
 @app.route("/getcomic/<string:search_query>", methods=['GET'])
 def get_comic(search_query):
     # search_query = input("xkcd to search for? ")
@@ -11,7 +12,6 @@ def get_comic(search_query):
     url = "https://duckduckgo.com/html/?q=site%3Axkcd.com%20" + search_query
 
     data = requests.get(url)
-
 
     #Local HTML file for testing purposes
     # filename = './nothing1.html'
@@ -28,10 +28,10 @@ def get_comic(search_query):
 
     #Loop through all the anchor tags we captured and apply some regex to get the text we want, then push that to our results list
     for result in result_urls:
-        x = re.findall("xkcd.com/\d+/", str(result))
+        x = re.findall("xkcd.com/(\d+)/", str(result))
         print(regex_results)
         #Check if regex matched
         if x and x[0] not in regex_results:
             regex_results.append(x[0])
-    response = jsonify({regex_results})
+    response = jsonify(regex_results)
     return response
